@@ -1,183 +1,91 @@
-# QA SaaS Automation Framework
+QA SaaS Automation Framework
 
-Production-ready Selenium + PyTest automation framework for **OrangeHRM** open-source demo, built with Page Object Model (POM), pytest-html reporting, and Jenkins CI/CD integration.
+This is a Selenium + PyTest automation framework built for practicing real-world QA testing using the OrangeHRM demo application.
 
-## Tech Stack
+It focuses on building a maintainable test structure using Page Object Model (POM), with reporting and basic CI/CD setup using Jenkins.
 
-| Component | Technology |
-|-----------|------------|
-| Language | Python 3.10+ |
-| UI Automation | Selenium WebDriver 4.x |
-| Test Runner | PyTest |
-| Reporting | pytest-html |
-| Driver Management | webdriver-manager |
-| Design Pattern | Page Object Model (POM) |
-| CI/CD | Jenkins (Declarative Pipeline) |
+Tech Stack
+Python
+Selenium WebDriver
+PyTest
+pytest-html
+webdriver-manager
+Jenkins (CI/CD)
+Application Under Test
 
-## Target Application
+OrangeHRM Demo
+https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
 
-- **URL:** https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
-- **Demo credentials:** `Admin` / `admin123`
+Login:
 
-## Project Structure
-
-```
+Username: Admin
+Password: admin123
+What this project covers
+Login testing (valid and invalid users)
+Dashboard load verification after login
+Basic permission check (Admin menu access)
+Smoke and regression-ready test structure
+Project Structure
 qa-saas-automation-framework/
 ├── config/
-│   └── settings.py          # Central configuration & env overrides
 ├── pages/
-│   ├── base_page.py         # Reusable waits & interactions
-│   ├── login_page.py        # Login page object
-│   └── dashboard_page.py    # Dashboard & navigation POM
+│   ├── base_page.py
+│   ├── login_page.py
+│   └── dashboard_page.py
 ├── tests/
-│   ├── test_login.py        # Valid & invalid login
-│   ├── test_dashboard.py    # Dashboard visibility
-│   └── test_permissions.py  # Admin menu access
+│   ├── test_login.py
+│   ├── test_dashboard.py
+│   └── test_permissions.py
 ├── utils/
-│   ├── driver_factory.py    # WebDriver factory (webdriver-manager)
-│   └── logger.py            # Logging utility
-├── reports/                 # Auto-generated HTML reports
-├── screenshots/             # Failure screenshots
-├── conftest.py              # PyTest fixtures & hooks
-├── pytest.ini               # PyTest configuration
-├── requirements.txt         # Python dependencies
-├── Jenkinsfile              # Jenkins CI/CD pipeline
-└── README.md
-```
-
-## Test Coverage
-
-| Test | Description |
-|------|-------------|
-| `test_valid_login` | Successful login redirects to dashboard |
-| `test_invalid_login` | Invalid credentials show error message |
-| `test_login_page_is_displayed` | Login UI loads correctly |
-| `test_dashboard_visibility_after_login` | Dashboard header, menu, user dropdown |
-| `test_admin_menu_access_for_authenticated_user` | Admin user can open System Users |
-
-## Prerequisites
-
-- Python 3.10 or higher
-- Google Chrome (recommended) or Mozilla Firefox
-- pip
-
-## Setup
-
-1. **Clone or navigate to the project:**
-
-   ```bash
-   cd qa-saas-automation-framework
-   ```
-
-2. **Create and activate a virtual environment:**
-
-   ```bash
-   # Windows
-   python -m venv venv
-   venv\Scripts\activate
-
-   # macOS / Linux
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-
-3. **Install dependencies:**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Running Tests
-
-### Run full suite
-
-```bash
-pytest
-```
-
-### Run with visible browser
-
-```bash
-pytest --browser=chrome
-```
-
-### Run headless (CI-style)
-
-```bash
-pytest --headless
-```
-
-### Run by marker
-
-```bash
-pytest -m smoke
-pytest -m regression
-pytest -m login
-```
-
-### Run a single test file
-
-```bash
-pytest tests/test_login.py -v
-```
-
-## Reports
-
-After execution, an HTML report is generated automatically:
-
-- **Path:** `reports/report.html`
-- Open in any browser for pass/fail details and execution metadata.
-
-Failed tests also capture screenshots in `screenshots/`.
-
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `BASE_URL` | OrangeHRM login URL | Application entry point |
-| `TEST_USERNAME` | Admin | Valid username |
-| `TEST_PASSWORD` | admin123 | Valid password |
-| `HEADLESS` | false | Set `true` for headless mode |
-| `BROWSER` | chrome | `chrome` or `firefox` |
-| `EXPLICIT_WAIT` | 15 | Explicit wait timeout (seconds) |
-
-Example:
-
-```bash
-# Windows PowerShell
-$env:HEADLESS="true"
+├── reports/
+├── screenshots/
+├── conftest.py
+├── pytest.ini
+├── requirements.txt
+└── Jenkinsfile
+How to run
+pip install -r requirements.txt
 pytest
 
-# Linux / macOS
+Run headless:
+
 HEADLESS=true pytest
-```
+Reporting
 
-## Jenkins CI/CD
+After test execution:
 
-The included `Jenkinsfile` defines a declarative pipeline with:
+HTML report is generated in /reports
+Screenshots are saved in /screenshots when tests fail
+Jenkins CI/CD
 
-1. **Checkout** — Pull source code
-2. **Setup Python Environment** — Create virtualenv
-3. **Install Dependencies** — `pip install -r requirements.txt`
-4. **Run Tests** — Headless pytest execution
-5. **Generate HTML Report** — Verify report artifact
-6. **Archive Artifacts** — Store `reports/` and `screenshots/`
+This project includes a Jenkins pipeline that:
 
-### Jenkins setup notes
+Pulls the code from GitHub
+Installs dependencies
+Runs tests in headless mode
+Generates HTML reports
+Saves reports as build artifacts
+QA focus of this project
 
-- Install **Python 3** and **Google Chrome** on the Jenkins agent
-- Create a **Pipeline** job pointing to this repository
-- Set **Pipeline script from SCM** and select the `Jenkinsfile`
-- Ensure the agent has network access to OrangeHRM demo and ChromeDriver download (webdriver-manager)
+This project was built to simulate real QA work, not just automation practice.
 
-## Framework Design Highlights
+It helps demonstrate:
 
-- **Page Object Model** — Maintainable, reusable page classes
-- **Explicit waits only** — No `time.sleep()`; WebDriverWait throughout
-- **Driver factory** — Centralized browser setup with webdriver-manager
-- **PyTest fixtures** — Driver lifecycle, login session, failure screenshots
-- **Logging** — Structured console logging for debugging
-- **Markers** — Smoke vs regression suite selection for CI tiers
+How test cases are structured in real projects
+How POM is used to keep tests maintainable
+How regression testing is organized
+How CI/CD fits into QA workflows
+Skills used
+Selenium WebDriver automation
+PyTest framework
+Page Object Model (POM)
+Basic CI/CD with Jenkins
+Test case design and execution
+Debugging failed tests
+Writing reusable test code
+Evidence
+GitHub repo: https://github.com/Sabelo-Shabangu/qa-saas-automation-framework
+Test reports: /reports
 
 ## License
 

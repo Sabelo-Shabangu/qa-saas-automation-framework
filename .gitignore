@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+venv/
+.venv/
+env/
+
+# PyTest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Reports & artifacts (keep folder structure via .gitkeep)
+reports/*.html
+screenshots/*.png
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
